@@ -30,9 +30,6 @@ function Sidebar() {
         <SidebarLink text="Boost" Icon={LightBulbIcon} />
 
       </div>
-      {/* <button className="hidden xl:inline ml-auto bg-[#1d9bf0] text-white rounded-full w-56 h-[52px] text-lg font-bold shadow-md hover:bg-[#1a8cd8]">
-        <ConnectButton moralisAuth={false} />
-      </button> */}
       <Box className="hidden xl:inline ml-auto bg-[#1d9bf0] text-white rounded-full w-56 h-[52px] text-lg font-bold shadow-md hover:bg-[#1a8cd8] ">
         <Connect bgColor="transparent"/>
       </Box>

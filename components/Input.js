@@ -16,6 +16,9 @@ import {
 } from "@firebase/firestore";
 import { Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
+import { getDownloadURL, ref, uploadString } from "@firebase/storage";
+
+
 
 function Input() {
   const [input, setInput] = useState("");
@@ -33,22 +36,19 @@ function Input() {
     setLoading(true);
 
     const docRef = await addDoc(collection(db, "posts"), {
-      id: "session.user.uid",
-      username: "session.user.name",
-      userImg: "session.user.image",
-      tag: "session.user.tag",
+      id: "0x79...e6",
+      username: "0x79...e6",
+      userImg: "https://www.pngitem.com/pimgs/m/404-4042710_circle-profile-picture-png-transparent-png.png",
+      tag: "BLOCKCHAIN",
       text: input,
       timestamp: serverTimestamp(),
     });
 
-
+    const imageRef = ref(storage, `posts/${docRef.id}/image`);
 
     if (selectedFile) {
-      // uploading the file to ipfs
       await uploadString(imageRef, selectedFile, "data_url").then(async () => {
         const downloadURL = await getDownloadURL(imageRef);
-        
-        // This would add the ipfs link of the image to the post doc 
         await updateDoc(doc(db, "posts", docRef.id), {
           image: downloadURL,
         });

@@ -23,6 +23,7 @@ import {
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Moment from "react-moment";
+import { useMoralis } from "react-moralis";
 import { useRecoilState } from "recoil";
 import { modalState, postIdState } from "../atoms/modalAtom";
 import { db } from "../firebase";
@@ -34,6 +35,8 @@ function Post({ id, post, postPage }) {
   const [likes, setLikes] = useState([]);
   const [liked, setLiked] = useState(false);
   const router = useRouter();
+  const { user, isAuthenticated } = useMoralis();
+  const [address, setAddress] = useState()
 
   useEffect(
     () =>
@@ -58,17 +61,24 @@ function Post({ id, post, postPage }) {
   useEffect(
     () =>
       setLiked(
-        likes.findIndex((like) => like.id === session?.user?.uid) !== -1
+        likes.findIndex((like) => like.id === "0x79...e6") !== -1
       ),
     [likes]
   );
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      setAddress(user.attributes.accounts);
+    }
+  }, [isAuthenticated]);
+
+
   const likePost = async () => {
     if (liked) {
-      await deleteDoc(doc(db, "posts", id, "likes", session.user.uid));
+      await deleteDoc(doc(db, "posts", id, "likes", "0x79...e6"));
     } else {
-      await setDoc(doc(db, "posts", id, "likes", session.user.uid), {
-        username: session.user.name,
+      await setDoc(doc(db, "posts", id, "likes", "0x79...e6"), {
+        username: "0x79...e6",
       });
     }
   };
@@ -86,6 +96,7 @@ function Post({ id, post, postPage }) {
         />
       )}
       <div className="flex flex-col space-y-2 w-full">
+        {address && console.log(address)}
         <div className={`flex ${!postPage && "justify-between"}`}>
           {postPage && (
             <img
