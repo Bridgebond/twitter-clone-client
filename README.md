@@ -1,2 +1,3 @@
-# twitter-clone-client
-bringing decentralization to twitter
+# Web3ter
+
+Decentralized blockchain solution
